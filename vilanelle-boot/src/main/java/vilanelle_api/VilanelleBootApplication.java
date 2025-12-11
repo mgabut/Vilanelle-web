@@ -1,4 +1,4 @@
-package vilanelle_webapp.vilanelle_boot;
+package vilanelle_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

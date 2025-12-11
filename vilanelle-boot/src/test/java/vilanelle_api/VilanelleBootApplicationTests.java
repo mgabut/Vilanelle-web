@@ -1,4 +1,4 @@
-package vilanelle_webapp.vilanelle_boot;
+package vilanelle_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
