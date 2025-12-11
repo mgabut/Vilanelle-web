@@ -1,0 +1,10 @@
+angular langage service
+angular schematics
+angular snippets
+codemetrics
+eslint
+html boilerplate
+html preview
+prettier
+pretty TS errors
+typos spell checker
