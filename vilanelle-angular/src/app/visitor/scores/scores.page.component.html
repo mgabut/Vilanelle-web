@@ -1,0 +1,61 @@
+<div class="container mt-4">
+    <h2>Gestion des Partitions (Scores)</h2>
+  
+    <div class="mb-3">
+      <input type="file" (change)="onFileSelected($event)" class="form-control" />
+      <button class="btn btn-primary mt-2" (click)="uploadScore()">Envoyer</button>
+    </div>
+  
+    <table class="table table-striped" *ngIf="scores.length > 0">
+      <thead>
+        <tr>
+          <th>Nom du fichier</th>
+          <th>Date d'ajout</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let score of scores">
+          <td>{{ score.filename }}</td>
+          <td>{{ score.uploadDate | date:'short' }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="deleteScore(score.id)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div *ngIf="scores.length === 0" class="alert alert-info">
+      Aucun score trouvé.
+    </div>
+  </div><div class="container mt-4">
+    <h2>Gestion des Partitions (Scores)</h2>
+  
+    <div class="mb-3">
+      <input type="file" (change)="onFileSelected($event)" class="form-control" />
+      <button class="btn btn-primary mt-2" (click)="uploadScore()">Envoyer</button>
+    </div>
+  
+    <table class="table table-striped" *ngIf="scores.length > 0">
+      <thead>
+        <tr>
+          <th>Nom du fichier</th>
+          <th>Date d'ajout</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let score of scores">
+          <td>{{ score.filename }}</td>
+          <td>{{ score.uploadDate | date:'short' }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="deleteScore(score.id)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div *ngIf="scores.length === 0" class="alert alert-info">
+      Aucun score trouvé.
+    </div>
+  </div>

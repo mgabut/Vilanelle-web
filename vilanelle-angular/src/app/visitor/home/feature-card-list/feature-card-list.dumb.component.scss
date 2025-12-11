@@ -1,0 +1,11 @@
+@use '../styles/variables' as *;
+
+
+.card{
+    background-color: $elegant-red;
+}
+p {
+    font-size: 1.1rem;
+    color: white;
+    font-weight: 500;
+}

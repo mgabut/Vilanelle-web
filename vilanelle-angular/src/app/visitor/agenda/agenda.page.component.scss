@@ -1,0 +1,33 @@
+@use '../styles/variables' as *;
+// Style du texte
+.content-box {
+  background-color: #fff;
+  border-radius: 15px;
+  //box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.section1{
+  background-color: $background-color;
+}
+
+.section2{
+  background-color: white;
+}
+
+.title-section {
+  color: $elegant-red;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.subtitle-section {
+  color: #555;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.text-section {
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+}

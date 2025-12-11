@@ -1,0 +1,16 @@
+@use '../styles/variables' as *;
+
+footer {
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    background-color: $elegant-red;
+a {
+    text-decoration: none;
+}
+  
+.btn-outline-light:hover {
+    background-color: #f8f9fa;
+    color: #000;
+}
+}

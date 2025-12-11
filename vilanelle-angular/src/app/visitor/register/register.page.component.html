@@ -1,0 +1,91 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <div class="card-body">
+        <h3 class="card-title text-center">Inscription</h3>
+          <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nom</label>
+              <input
+              #nameField="ngModel"
+              [(ngModel)]="name"
+              type="text"
+              name="name"
+              class="form-control"
+              id="name"
+              required
+              minlength="3"
+              maxlength="20"
+              pattern="[a-zA-Z]+"
+              [class.is-invalid]="nameField.dirty && nameField.invalid"
+              />
+              @if(nameField.dirty && nameField.hasError('required')){
+                <div class="erreur-nom text-muted">
+                  Entrez un nom entre 3 et 20 caractères
+                </div>
+              }
+            </div>
+            
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                [(ngModel)]="email"
+                name="email"
+                #emailField="ngModel"
+                class="form-control"
+                id="email"
+                autocomplete="email"
+                required
+                [class.is-invalid]="emailField.dirty && emailField.invalid"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Mot de passe</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                autocomplete="new-password"
+                [(ngModel)]="password"
+                #passwordField="ngModel"
+                name="password"
+                required
+                [class.is-invalid]="passwordField.dirty && passwordField.invalid"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">
+                Confirmez le mot de passe
+              </label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirm-password"
+                autocomplete="new-password"
+                [(ngModel)]="confirmPassword"
+                #confirmPasswordField="ngModel"
+                name="confirmPassword"
+                required
+                [class.is-invalid]="passwordField.dirty && !isPasswordMatchValid()"
+              />
+              @if(passwordField.dirty && !isPasswordMatchValid()){
+                <div class="error-matching-password text-muted">
+                  Les mots de passe ne correspondent pas
+                </div>
+              }
+            </div>
+            <div class="d-grid">
+              <button 
+              type="submit" 
+              class="btn btn-primary w-100"
+              [disabled]="signupForm.invalid || !isPasswordMatchValid()"
+              >
+                S'inscrire
+              </button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>

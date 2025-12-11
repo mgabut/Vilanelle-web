@@ -1,0 +1,45 @@
+@use 'styles/variables' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+* {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+}
+
+app-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Assure que l'écran est rempli */
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+ }
+
+body {
+    padding-top: 120px; /* Ajuste selon la hauteur réelle de ta navbar */
+    background-color: $background-color;
+}
+
+.main-content {
+    flex-grow: 1; /* Pousse le footer en bas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+
+/* Footer collé en bas de page */
+footer {
+  background-color: #444;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  margin-top: auto;
+}

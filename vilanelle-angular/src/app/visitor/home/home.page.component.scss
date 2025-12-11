@@ -1,0 +1,19 @@
+@use '../styles/variables' as *;
+ 
+h1 {
+    font-size: 2.5rem;
+    color: $elegant-red;
+}
+  
+p {
+    font-size: 1.2rem;
+}
+
+.full-page {
+    background-color: $background-color; /* Blanc cassé */
+    min-height: 100vh; /* Toute la hauteur de l'écran */
+    display: flex;
+    align-items: flex-start;;
+    justify-content: center;
+    padding-top: 20px;
+  }

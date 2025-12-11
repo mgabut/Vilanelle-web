@@ -1,0 +1,14 @@
+<div class="container text-center mt-2 p-5">
+    <div class="row">
+      @for(feature of featureCardList(); track feature.name) {
+      <div class="col-md-4">
+        <div class="card" data-testid="feature-card">
+          <div class="card-body">
+            <img src="{{ feature.icon }}" alt="{{ feature.name }}" class="img-fluid" style="width: 100px; height: 100px;">
+            <p class="card-title mt-2">{{ feature.description }}</p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>

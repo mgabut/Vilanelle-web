@@ -1,0 +1,9 @@
+<div class="container mt-4">
+    @for(concert of agendaConcerts(); track concert.date) {
+    <div class="mb-4 border-bottom">
+        <h2 class="title-section">{{concert.place}}</h2>
+        <p>{{concert.hour}} h - {{concert.city}}</p>
+        <p>{{concert.date}}</p>
+    </div>
+    }
+</div>
