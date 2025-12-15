@@ -1,9 +1,12 @@
 <div class="container mt-4">
-    @for(concert of agendaConcerts(); track concert.date) {
+    @for(evenement of agendaConcerts(); track evenement.date) {
     <div class="mb-4 border-bottom">
-        <h2 class="title-section">{{concert.place}}</h2>
-        <p>{{concert.hour}} h - {{concert.city}}</p>
-        <p>{{concert.date}}</p>
+        <h2 class="title-section">{{evenement.libelle}}</h2>
+        <h2 class="subtitle-section">{{evenement.lieu}}</h2>
+        <p>{{evenement.heure}} - {{evenement.ville}}</p>
+        <p>
+            {{ evenement.date | date:'EEEE dd MMMM yyyy':'':'fr-FR' }}
+        </p>
     </div>
     }
 </div>

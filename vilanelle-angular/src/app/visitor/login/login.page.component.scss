@@ -1,0 +1,64 @@
+@use '../styles/variables' as *;
+
+.section1 {
+  background-color: $background-color;
+}
+
+.login-box {
+  max-width: 420px;
+  width: 100%;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ccc;
+
+  &:focus {
+    border-color: $elegant-red;
+    box-shadow: 0 0 0 0.15rem rgba(180, 50, 50, 0.2);
+  }
+}
+
+.password-wrapper {
+  position: relative;
+
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+  }
+}
+
+.btn-login {
+  background-color: $elegant-red;
+  color: white;
+  font-weight: bold;
+  border-radius: 30px;
+  padding: 0.6rem;
+
+  &:hover {
+    background-color: darken($elegant-red, 8%);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.error-message {
+  color: $elegant-red;
+  font-size: 0.9rem;
+  text-align: center;
+}

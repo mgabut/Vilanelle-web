@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthRequestDto } from '../dto/auth-request-dto';
 import { AuthResponseDto } from '../dto/auth-response-dto';
-import { SubscribeRequestDto } from '../dto/subscribe-request-dto';
-import { SubscribeResponseDto } from '../dto/subscribe-response-dto';
 
 
 @Injectable({
@@ -42,16 +40,6 @@ export class AuthService {
         error: err => reject(err)
       });
     })
-  }
-
-  public register(subscribeRequest: SubscribeRequestDto): Promise<SubscribeResponseDto>{
-    return new Promise((resolve, reject) => {
-      this.http.post<SubscribeResponseDto>('/joueur', subscribeRequest.toJson()).subscribe({
-        next: resp => resolve(resp),
-        error: err => reject(err)
-      });
-    });
-
   }
 
   public isLogged() {
