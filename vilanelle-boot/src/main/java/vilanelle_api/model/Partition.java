@@ -1,6 +1,9 @@
 package vilanelle_api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="part")
@@ -16,12 +19,20 @@ public class Partition {
     protected String auteur;
 
     @Column
-    protected String path;
+    protected String pdfPath;
 
-    public Partition(String titre, String auteur, String path) {
+    @Column
+    protected String pdfName;
+
+    @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    protected LocalDateTime dateCreation;
+
+    public Partition(String titre, String auteur, String pdfPath, String pdfName) {
         this.titre = titre;
         this.auteur = auteur;
-        this.path = path;
+        this.pdfPath = pdfPath;
+        this.pdfName = pdfName;
     }
 
     public Partition() {
@@ -51,7 +62,15 @@ public class Partition {
         return auteur;
     }
 
-    public void setPath(String path) {this.path = path;}
+    public void setPdfPath(String pdfPath) {this.pdfPath = pdfPath;}
 
-    public String getPath() {return path;}
+    public String getPdfPath() {return pdfPath;}
+
+    public void setPdfName(String pdfName) {this.pdfName = pdfName;}
+
+    public String getPdfName() {return pdfName;}
+
+    public LocalDateTime getDateCreation() {return dateCreation;}
+
+    public void setDateCreation(LocalDateTime dateCreation) {this.dateCreation = dateCreation;}
 }

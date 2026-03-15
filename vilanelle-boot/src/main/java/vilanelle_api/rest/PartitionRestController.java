@@ -12,6 +12,7 @@ import vilanelle_api.service.PartitionService;
 import vilanelle_api.service.StorageService;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -35,24 +36,102 @@ public class PartitionRestController {
     public Partition upload(
             @RequestParam String titre,
             @RequestParam(required = false) String auteur,
-            @RequestParam MultipartFile file
+            @RequestParam("file") MultipartFile file
     ) {
         String path = storageService.save(file);
-        Partition partition = new Partition(titre, auteur, path);
+
+        Partition partition = new Partition();
+        partition.setTitre(titre);
+        partition.setAuteur(auteur);
+        partition.setPdfPath(path);
+        partition.setPdfName(file.getOriginalFilename());
+        partition.setDateCreation(LocalDateTime.now());
+
         return partitionService.create(partition);
     }
 
-    // 📄 Liste des partitions
+    // GET ALL
     @GetMapping
-    public List<Partition> getAll() {
-        return partitionService.getAll();
+    public ResponseEntity<List<Partition>> getAll() {
+        return ResponseEntity.ok(partitionService.getAll());
+    }
+
+    // GET BY ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Partition> getById(@PathVariable Integer id) {
+        Partition partition = partitionService.getById(id);
+
+        if (partition == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(partition);
+    }
+
+    // UPDATE sans changer le PDF
+    @PutMapping("/{id}")
+    public ResponseEntity<Partition> update(
+            @PathVariable Integer id,
+            @RequestBody Partition updatedPartition
+    ) {
+        Partition existing = partitionService.getById(id);
+
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        existing.setTitre(updatedPartition.getTitre());
+        existing.setAuteur(updatedPartition.getAuteur());
+
+        Partition saved = partitionService.update(existing);
+        return ResponseEntity.ok(saved);
+    }
+
+    // UPDATE avec remplacement éventuel du PDF
+    @PutMapping(value = "/{id}/with-file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Partition> updateWithFile(
+            @PathVariable Integer id,
+            @RequestParam String titre,
+            @RequestParam(required = false) String auteur,
+            @RequestParam(value = "file", required = false) MultipartFile file
+    ) {
+        Partition existing = partitionService.getById(id);
+
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        existing.setTitre(titre);
+        existing.setAuteur(auteur);
+
+        if (file != null && !file.isEmpty()) {
+            String path = storageService.save(file);
+            existing.setPdfPath(path);
+            existing.setPdfName(file.getOriginalFilename());
+        }
+
+        Partition saved = partitionService.update(existing);
+        return ResponseEntity.ok(saved);
+    }
+
+    // DELETE
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        Partition existing = partitionService.getById(id);
+
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        partitionService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     // ⬇️ Téléchargement PDF
     @GetMapping("/{id}/download")
     public ResponseEntity<Resource> download(@PathVariable Integer id) {
         Partition partition = partitionService.getById(id);
-        Resource file = storageService.load(partition.getPath());
+        Resource file = storageService.load(partition.getPdfPath());
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)

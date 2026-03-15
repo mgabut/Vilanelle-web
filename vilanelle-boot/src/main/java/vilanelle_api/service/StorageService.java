@@ -27,7 +27,7 @@ public class StorageService {
 
             file.transferTo(destination.toFile());
 
-            return basePath + "/" + filename;
+            return destination.toString();
         } catch (Exception e) {
             throw new RuntimeException("Erreur stockage fichier", e);
         }
@@ -36,7 +36,13 @@ public class StorageService {
     public Resource load(String filePath) {
         try {
             Path path = Paths.get(filePath).toAbsolutePath();
-            return new UrlResource(path.toUri());
+            Resource resource = new UrlResource(path.toUri());
+
+            if (!resource.exists() || !resource.isReadable()) {
+                throw new RuntimeException("Fichier introuvable ou illisible");
+            }
+
+            return resource;
         } catch (Exception e) {
             throw new RuntimeException("Fichier introuvable", e);
         }

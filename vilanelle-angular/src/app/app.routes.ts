@@ -9,6 +9,7 @@ import { authGuard } from './guard/auth-guard';
 import { PicturesPageComponent } from './user/pictures/pictures.page.component';
 import { AdminAgendaPageComponent } from './user/admin-agenda/admin-agenda.page.component';
 import { adminGuard } from './guard/admin-guard';
+import { AdminScoresPageComponent } from './user/admin-scores/admin-scores.page.component';
 
 export const routes: Routes = [
     {
@@ -41,6 +42,12 @@ export const routes: Routes = [
         component: ScoresPageComponent,
         title: 'scores',
         canActivate: [authGuard]
+    },
+    {
+        path: 'admin-scores',
+        component: AdminScoresPageComponent,
+        title: 'admin-scores',
+        canActivate: [adminGuard]
     },
     {
         path: 'pictures',

@@ -1,0 +1,122 @@
+<app-navadmin/>
+
+<!-- SECTION TABLEAU -->
+<div class="container text-center mt-2 p-5 section2">
+  <div class="content-box p-4">
+
+    <h2 class="title-section">Gestion des partitions</h2>
+
+    <table class="table table-hover mt-4">
+      <thead class="table-light">
+        <tr>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>Nom du PDF</th>
+          <th>Date de création</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let partition of partition$ | async; trackBy: trackPartition">
+          <td>{{ partition.titre }}</td>
+          <td>{{ partition.auteur }}</td>
+          <td>{{ partition.pdfName }}</td>
+          <td>{{ partition.dateCreation | date:'dd/MM/yyyy HH:mm':'':'fr-FR' }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-outline-success me-2"
+              (click)="downloadPartition(partition)"
+            >
+              Télécharger
+            </button>
+
+            <button
+              class="btn btn-sm btn-outline-primary me-2"
+              (click)="editPartition(partition)"
+            >
+              Modifier
+            </button>
+
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="deletePartition(partition)"
+            >
+              Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- SECTION FORMULAIRE -->
+<div class="container text-center mt-2 p-5 section1">
+  <div class="content-box p-4">
+
+    <h2 class="title-section">
+      {{ editingPartition ? 'Modifier une partition' : 'Ajouter une partition' }}
+    </h2>
+
+    <form
+      [formGroup]="partitionForm"
+      (ngSubmit)="ajouterModifierMap()"
+      class="mt-4 mx-auto"
+      style="max-width: 500px;"
+    >
+
+      <!-- Titre -->
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Titre"
+          formControlName="titre"
+        />
+      </div>
+
+      <!-- Auteur -->
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Auteur"
+          formControlName="auteur"
+        />
+      </div>
+
+      <!-- PDF uniquement en création -->
+      <div class="mb-4" *ngIf="!editingPartition">
+        <input
+          type="file"
+          class="form-control"
+          accept="application/pdf"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+
+      <!-- Boutons -->
+      <div class="mt-3">
+        <button
+          class="btn btn-danger px-4"
+          type="submit"
+          [disabled]="partitionForm.invalid"
+        >
+          {{ editingPartition ? 'Modifier' : 'Ajouter' }}
+        </button>
+
+        <button
+          *ngIf="editingPartition"
+          type="button"
+          class="btn btn-secondary ms-3"
+          (click)="cancelEdit()"
+        >
+          Annuler
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
