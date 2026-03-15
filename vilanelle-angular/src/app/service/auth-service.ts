@@ -10,13 +10,45 @@ import { AuthResponseDto } from '../dto/auth-response-dto';
 })
 export class AuthService {
   private _token: string = "";
+  private _role: 'ADMIN' | 'USER' | null = null;
+
 
   constructor(private http: HttpClient) {
-    this._token = sessionStorage.getItem("token") ?? "";
+    const storedToken = sessionStorage.getItem("token") ?? "";
+    if (storedToken) {
+      this.setToken(storedToken);
+    }
   }
+
+  private setToken(token: string) {
+    this._token = token;
+    sessionStorage.setItem('token', token);
+
+    // 🔥 décodage JWT
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    this._role = payload.role;
+  }
+
+  //getters - setters
 
   public get token(): string {
     return this._token;
+  }
+
+  public get role(): string | null {
+    return this._role;
+  }
+
+  public isLogged(): boolean {
+    return !!this._token;
+  }
+
+  public isAdmin(): boolean {
+    return this._role === 'ADMIN';
+  }
+
+  public isUser(): boolean {
+    return this._role === 'USER';
   }
 
   public auth(authRequest: AuthRequestDto): Promise<void> {
@@ -29,9 +61,8 @@ export class AuthService {
             return;
           }
 
-          this._token = resp.token;
-
-          sessionStorage.setItem("token", this._token);
+          this.setToken(resp.token);
+          resolve();
 
           resolve();
         },
@@ -42,12 +73,10 @@ export class AuthService {
     })
   }
 
-  public isLogged() {
-    return !!this._token;
-  }
-
   public logout() {
     this._token = "";
+    this._role = null;
     sessionStorage.removeItem("token");
   }
+
 }

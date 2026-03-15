@@ -7,6 +7,8 @@ import { JoiningPageComponent } from './visitor/joining/joining.page.component';
 import { ScoresPageComponent } from './user/scores/scores.page.component';
 import { authGuard } from './guard/auth-guard';
 import { PicturesPageComponent } from './user/pictures/pictures.page.component';
+import { AdminAgendaPageComponent } from './user/admin-agenda/admin-agenda.page.component';
+import { adminGuard } from './guard/admin-guard';
 
 export const routes: Routes = [
     {
@@ -45,5 +47,11 @@ export const routes: Routes = [
         component: PicturesPageComponent,
         title: 'pictures',
         canActivate: [authGuard]
+    },
+    {
+        path: 'admin-agenda',
+        component: AdminAgendaPageComponent,
+        title: 'admin-agenda',
+        canActivate: [adminGuard]
     }
 ];

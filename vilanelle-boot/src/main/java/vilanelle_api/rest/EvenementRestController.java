@@ -1,11 +1,9 @@
 package vilanelle_api.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import vilanelle_api.dao.IDAOEvenement;
+import org.springframework.web.bind.annotation.*;
 import vilanelle_api.model.Evenement;
+import vilanelle_api.service.EvenementService;
 
 import java.util.List;
 
@@ -14,11 +12,30 @@ import java.util.List;
 public class EvenementRestController {
 
     @Autowired
-    private IDAOEvenement daoEvenement;
+    private EvenementService srv;
 
     @GetMapping
     public List<Evenement> findAll(){
-        return this.daoEvenement.findAll();
+        return this.srv.getAll();
     }
+
+    @GetMapping("/{id}")
+    public Evenement getEvenementById(@PathVariable Integer id) {return this.srv.getById(id);}
+
+    @PostMapping
+    public Evenement createEvenement(@RequestBody Evenement evenement){return this.srv.creatOrUpdateMap(evenement);}
+
+    @PutMapping("/{id}")
+    public Evenement updateEvenement(@PathVariable Integer id, @RequestBody Evenement evenement) {
+        evenement.setId(id);
+        return srv.creatOrUpdateMap(evenement);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteEvenement(@PathVariable Integer id) {
+        srv.deleteById(id);
+    }
+
+
 
 }

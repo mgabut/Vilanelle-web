@@ -16,12 +16,12 @@ public class Partition {
     protected String auteur;
 
     @Column
-    protected String reference;
+    protected String path;
 
-    public Partition(String titre, String auteur, String reference) {
+    public Partition(String titre, String auteur, String path) {
         this.titre = titre;
         this.auteur = auteur;
-        this.reference = reference;
+        this.path = path;
     }
 
     public Partition() {
@@ -50,4 +50,8 @@ public class Partition {
     public String getAuteur() {
         return auteur;
     }
+
+    public void setPath(String path) {this.path = path;}
+
+    public String getPath() {return path;}
 }

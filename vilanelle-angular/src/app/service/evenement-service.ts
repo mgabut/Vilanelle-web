@@ -30,7 +30,7 @@ export class EvenementService {
   public save(evenementDto: EvenementDto): void {
     const payload = evenementDto.toJson();
 
-    if (!evenementDto.id) {
+    if (evenementDto.id==0) {
       this.http.post<EvenementDto>(this.apiUrl, payload)
         .subscribe(() => this.refresh());
     } else {

@@ -12,7 +12,7 @@ import { AuthService } from '../../service/auth-service';
 })
 export class NavadminSmartComponent {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router) { }
   
   deconnexion():void { 
     this.authService.logout();
