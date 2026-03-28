@@ -1,0 +1,46 @@
+@use '../styles/variables' as *;
+
+.navbar-custom {
+    background-color: $background-color ;
+    padding: 15px 0px;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-small{
+    padding: 5px 0;
+}
+
+/* Logo normal */
+.navbar-brand img {
+    height: 80px; /* Taille du logo */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Logo réduit */
+.logo-small {
+    height: 40px !important; /* Taille beaucoup plus réduite */
+    transform: scale(0.5); /* Réduction en plus du height */
+    opacity: 0; /* Effet de léger fondu */
+}
+
+.navbar-nav .nav-link {
+    color: $light-black; /* Couleur du texte */
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-right: 15px;
+}
+.navbar-nav .nav-link.active-link {
+    color: $elegant-red !important; /* Couleur lorsque la page est active */
+  }
+
+.btn-contact {
+    background-color: $elegant-red; /* Couleur du bouton */
+    color: white;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+}
+.btn-contact:hover {
+    background-color: $hover-red; /* Couleur du bouton au survol */
+}
+

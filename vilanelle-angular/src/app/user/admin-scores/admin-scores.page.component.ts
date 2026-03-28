@@ -87,7 +87,20 @@ export class AdminScoresPageComponent {
   }
 
   public downloadPartition(partition: PartitionDto): void {
-    window.open(this.partitionService.getDownloadUrl(partition.id), '_blank');
+    this.partitionService.downloadById(partition.id).subscribe({
+      next: (blob: Blob) => {
+        const fileURL = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.download = partition.pdfName || 'partition.pdf';
+        link.click();
+        window.URL.revokeObjectURL(fileURL);
+      },
+      error: (error) => {
+        console.error('Erreur lors du téléchargement :', error);
+        alert('Impossible de télécharger la partition.');
+      }
+    });
   }
 
   public cancelEdit(): void {

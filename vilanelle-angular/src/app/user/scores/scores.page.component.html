@@ -1,1 +1,38 @@
-<app-navadmin/>
+<app-navuser/>
+
+<div class="container text-center mt-2 p-5 section2">
+  <div class="content-box p-4">
+
+    <h2 class="title-section">Liste des partitions</h2>
+
+    <table class="table table-hover mt-4">
+      <thead class="table-light">
+        <tr>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>Nom du PDF</th>
+          <th>Date de création</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let partition of partition$ | async; trackBy: trackPartition">
+          <td>{{ partition.titre }}</td>
+          <td>{{ partition.auteur }}</td>
+          <td>{{ partition.pdfName }}</td>
+          <td>{{ partition.dateCreation | date:'dd/MM/yyyy HH:mm':'':'fr-FR' }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-outline-success"
+              (click)="downloadPartition(partition)"
+            >
+              Télécharger
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

@@ -55,8 +55,9 @@ export class PartitionService {
       .subscribe(() => this.refresh());
   }
 
-  private apiUrlDownload = 'http://localhost:8080/api/partitions';
-  public getDownloadUrl(id: number): string {
-    return `${this.apiUrlDownload}/${id}/download`;
+  public downloadById(id: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${id}/download`, {
+      responseType: 'blob'
+    });
   }
 }

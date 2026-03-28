@@ -41,7 +41,7 @@ export const routes: Routes = [
         path: 'scores',
         component: ScoresPageComponent,
         title: 'scores',
-        canActivate: [authGuard]
+        //canActivate: [authGuard]
     },
     {
         path: 'admin-scores',
