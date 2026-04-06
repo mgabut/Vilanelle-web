@@ -1,66 +1,67 @@
 <app-navbar/>
+<div class="allpage">
+  <section class="section1">
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+      <div class="content-box p-5 login-box">
 
-<section class="section1">
-  <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="content-box p-5 login-box">
+        <h2 class="title-section text-center mb-4">
+          Espace membres
+        </h2>
 
-      <h2 class="title-section text-center mb-4">
-        Espace membres
-      </h2>
+        <form [formGroup]="userForm" (ngSubmit)="connecter()">
 
-      <form [formGroup]="userForm" (ngSubmit)="connecter()">
-
-        <!-- Username -->
-        <div class="form-group mb-3">
-          <label for="username" class="form-label">Nom d'utilisateur</label>
-          <input
-            id="username"
-            type="text"
-            class="form-control"
-            formControlName="username"
-            placeholder="Votre nom d'utilisateur"
-          />
-        </div>
-
-        <!-- Password -->
-        <div class="form-group mb-3">
-          <label for="password" class="form-label">Mot de passe</label>
-
-          <div class="password-wrapper">
+          <!-- Username -->
+          <div class="form-group mb-3">
+            <label for="username" class="form-label">Nom d'utilisateur</label>
             <input
-              id="password"
-              [type]="showPassword ? 'text' : 'password'"
+              id="username"
+              type="text"
               class="form-control"
-              formControlName="password"
-              placeholder="Votre mot de passe"
+              formControlName="username"
+              placeholder="Votre nom d'utilisateur"
             />
-
-            <button
-              type="button"
-              class="toggle-password"
-              (click)="togglePassword()"
-            >
-              {{ showPassword ? 'masquer' : 'afficher' }}
-            </button>
           </div>
-        </div>
 
-        <!-- Erreur -->
-        <div *ngIf="loginError" class="error-message mb-3">
-          Identifiants incorrects
-        </div>
+          <!-- Password -->
+          <div class="form-group mb-3">
+            <label for="password" class="form-label">Mot de passe</label>
 
-        <!-- Submit -->
-        <button
-          type="submit"
-          class="btn btn-login w-100 mt-3"
-          [disabled]="userForm.invalid"
-        >
-          Se connecter
-        </button>
+            <div class="password-wrapper">
+              <input
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                class="form-control"
+                formControlName="password"
+                placeholder="Votre mot de passe"
+              />
 
-      </form>
+              <button
+                type="button"
+                class="toggle-password"
+                (click)="togglePassword()"
+              >
+                {{ showPassword ? 'masquer' : 'afficher' }}
+              </button>
+            </div>
+          </div>
 
+          <!-- Erreur -->
+          <div *ngIf="loginError" class="error-message mb-3">
+            Identifiants incorrects
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="btn btn-login w-100 mt-3"
+            [disabled]="userForm.invalid"
+          >
+            Se connecter
+          </button>
+
+        </form>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>

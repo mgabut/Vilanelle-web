@@ -22,6 +22,7 @@ export class AdminScoresPageComponent {
 
   protected editingPartition: PartitionDto | null = null;
   protected selectedFile: File | null = null;
+  protected selectedAudioFile: File | null = null;
 
   constructor(
     private partitionService: PartitionService,
@@ -47,33 +48,43 @@ export class AdminScoresPageComponent {
     }
   }
 
+  public onAudioSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    this.selectedAudioFile = input.files[0];
+  }
+}
+
   public ajouterModifierMap(): void {
-    if (this.editingPartition) {
-      const updatedPartition = new PartitionDto(
-        this.editingPartition.id,
-        this.titreCtrl.value,
-        this.auteurCtrl.value,
-        this.editingPartition.pdfPath,
-        this.editingPartition.pdfName,
-        this.editingPartition.dateCreation
-      );
+  if (this.editingPartition) {
+    const updatedPartition = new PartitionDto(
+      this.editingPartition.id,
+      this.titreCtrl.value,
+      this.auteurCtrl.value,
+      this.editingPartition.pdfPath,
+      this.editingPartition.pdfName,
+      this.editingPartition.audioPath,
+      this.editingPartition.audioName,
+      this.editingPartition.dateCreation
+    );
 
-      this.partitionService.update(updatedPartition);
-    } else {
-      if (!this.selectedFile) {
-        alert('Veuillez sélectionner un fichier PDF.');
-        return;
-      }
-
-      this.partitionService.create(
-        this.titreCtrl.value,
-        this.auteurCtrl.value,
-        this.selectedFile
-      );
+    this.partitionService.update(updatedPartition);
+  } else {
+    if (!this.selectedFile) {
+      alert('Veuillez sélectionner un fichier PDF.');
+      return;
     }
 
-    this.resetForm();
+    this.partitionService.create(
+      this.titreCtrl.value,
+      this.auteurCtrl.value,
+      this.selectedFile,
+      this.selectedAudioFile
+    );
   }
+
+  this.resetForm();
+}
 
   public editPartition(partition: PartitionDto): void {
     this.editingPartition = partition;
@@ -103,6 +114,23 @@ export class AdminScoresPageComponent {
     });
   }
 
+  public downloadAudio(partition: PartitionDto): void {
+    this.partitionService.downloadAudioById(partition.id).subscribe({
+      next: (blob: Blob) => {
+        const fileURL = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.download = partition.audioName || 'audio.mp3';
+        link.click();
+        window.URL.revokeObjectURL(fileURL);
+      },
+      error: (error) => {
+        console.error('Erreur lors du téléchargement de l’audio :', error);
+        alert('Impossible de télécharger le fichier audio.');
+      }
+    });
+  }
+
   public cancelEdit(): void {
     this.resetForm();
   }
@@ -114,6 +142,7 @@ export class AdminScoresPageComponent {
   private resetForm(): void {
     this.editingPartition = null;
     this.selectedFile = null;
+    this.selectedAudioFile = null;
     this.partitionForm.reset();
   }
 }

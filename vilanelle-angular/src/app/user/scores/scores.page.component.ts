@@ -41,6 +41,23 @@ export class ScoresPageComponent {
     });
   }
 
+  public downloadAudio(partition: PartitionDto): void {
+    this.partitionService.downloadAudioById(partition.id).subscribe({
+      next: (blob: Blob) => {
+        const fileURL = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.download = partition.audioName || 'audio.mp3';
+        link.click();
+        window.URL.revokeObjectURL(fileURL);
+      },
+      error: (error) => {
+        console.error('Erreur lors du téléchargement de l’audio :', error);
+        alert('Impossible de télécharger le fichier audio.');
+      }
+    });
+  }
+
   public trackPartition(index: number, value: PartitionDto): number {
     return value.id;
   }

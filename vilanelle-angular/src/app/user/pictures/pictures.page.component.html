@@ -1,3 +1,22 @@
 <app-navadmin/>
 
-<p>pictures works!</p>
+<div class="allpage">
+    <h1 class="title-section">Gestion des photos</h1>
+
+    <div *ngFor="let photo of photos" class="photo-admin-item">
+        <img [src]="photo.imageUrl" [alt]="photo.title" width="120" />
+
+        <div>
+            <p class="text-section">{{ photo.title }}</p>
+
+            <label>
+            <input
+                type="checkbox"
+                [checked]="photo.visibleOnHome"
+                (change)="toggleVisibility(photo)"
+            />
+            Afficher sur la page d’accueil
+            </label>
+        </div>
+    </div>
+</div>

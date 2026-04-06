@@ -6,6 +6,8 @@ export class PartitionDto {
     private _titre: string,
     private _pdfPath: string,
     private _pdfName: string,
+    private _audioPath: string | null,
+    private _audioName: string | null,
     private _dateCreation: string | Date
   ) {}
 
@@ -27,6 +29,14 @@ export class PartitionDto {
 
   get pdfName(): string {
     return this._pdfName;
+  }
+  
+  get audioPath(): string | null {
+    return this._audioPath;
+  }
+
+  get audioName(): string | null {
+    return this._audioName;
   }
 
   get dateCreation(): string | Date {
@@ -63,6 +73,8 @@ export class PartitionDto {
       json.auteur,
       json.pdfPath,
       json.pdfName,
+      json.audioPath || null,
+      json.audioName || null,
       json.dateCreation ? new Date(json.dateCreation) : new Date()
     );
   }

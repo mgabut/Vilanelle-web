@@ -49,7 +49,7 @@ export class LoginPageComponent implements OnInit {
       console.log("Payload:", payload.role);
 
       if (payload.role==="ADMIN") {
-        this.router.navigate(['/scores']);
+        this.router.navigate(['/admin-scores']);
         console.log("Admin connecté");
       } else {
         this.router.navigate(['/scores']);

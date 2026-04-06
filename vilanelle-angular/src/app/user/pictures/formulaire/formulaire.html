@@ -1,0 +1,44 @@
+<h2 class="title-section">Ajouter une photo</h2>
+
+<form (ngSubmit)="uploadPhoto()">
+  <div class="mb-3">
+    <label for="title" class="form-label">Titre</label>
+    <input
+      id="title"
+      type="text"
+      class="form-control"
+      [(ngModel)]="title"
+      name="title"
+      required
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="file" class="form-label">Choisir une image</label>
+    <input
+      id="file"
+      type="file"
+      class="form-control"
+      accept="image/*"
+      (change)="onFileSelected($event)"
+      required
+    />
+  </div>
+
+  <div class="form-check mb-3">
+    <input
+      id="visibleOnHome"
+      type="checkbox"
+      class="form-check-input"
+      [(ngModel)]="visibleOnHome"
+      name="visibleOnHome"
+    />
+    <label for="visibleOnHome" class="form-check-label">
+      Afficher sur la page d’accueil
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="!selectedFile">
+    Uploader
+  </button>
+</form>

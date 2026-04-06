@@ -10,6 +10,9 @@ import { PicturesPageComponent } from './user/pictures/pictures.page.component';
 import { AdminAgendaPageComponent } from './user/admin-agenda/admin-agenda.page.component';
 import { adminGuard } from './guard/admin-guard';
 import { AdminScoresPageComponent } from './user/admin-scores/admin-scores.page.component';
+import { HistoryPageComponent } from './visitor/history/history.page.component';
+import { AdminCalendarPageComponent } from './user/admin-calendar/admin-calendar.page.component';
+import { UserCalendarPageComponent } from './user/user-calendar/user-calendar.page.component';
 
 export const routes: Routes = [
     {
@@ -38,15 +41,32 @@ export const routes: Routes = [
         title: 'joining'
     },
     {
+        path: 'history',
+        component: HistoryPageComponent,
+        title: 'history'
+    },
+    {
         path: 'scores',
         component: ScoresPageComponent,
         title: 'scores',
-        //canActivate: [authGuard]
+        canActivate: [authGuard]
     },
     {
         path: 'admin-scores',
         component: AdminScoresPageComponent,
         title: 'admin-scores',
+        canActivate: [adminGuard]
+    },
+    {
+        path: 'user-calendar',
+        component: UserCalendarPageComponent,
+        title: 'user-calendar',
+        canActivate: [authGuard]
+    },
+    {
+        path: 'admin-calendar',
+        component: AdminCalendarPageComponent,
+        title: 'admin-calendar',
         canActivate: [adminGuard]
     },
     {

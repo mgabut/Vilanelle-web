@@ -36,16 +36,23 @@ public class PartitionRestController {
     public Partition upload(
             @RequestParam String titre,
             @RequestParam(required = false) String auteur,
-            @RequestParam("file") MultipartFile file
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "audioFile", required = false) MultipartFile audioFile
     ) {
-        String path = storageService.save(file);
+        String pdfPath = storageService.save(file);
 
         Partition partition = new Partition();
         partition.setTitre(titre);
         partition.setAuteur(auteur);
-        partition.setPdfPath(path);
+        partition.setPdfPath(pdfPath);
         partition.setPdfName(file.getOriginalFilename());
         partition.setDateCreation(LocalDateTime.now());
+
+        if (audioFile != null && !audioFile.isEmpty()) {
+            String audioPath = storageService.save(audioFile);
+            partition.setAudioPath(audioPath);
+            partition.setAudioName(audioFile.getOriginalFilename());
+        }
 
         return partitionService.create(partition);
     }
@@ -93,7 +100,8 @@ public class PartitionRestController {
             @PathVariable Integer id,
             @RequestParam String titre,
             @RequestParam(required = false) String auteur,
-            @RequestParam(value = "file", required = false) MultipartFile file
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam(value = "audioFile", required = false) MultipartFile audioFile
     ) {
         Partition existing = partitionService.getById(id);
 
@@ -108,6 +116,12 @@ public class PartitionRestController {
             String path = storageService.save(file);
             existing.setPdfPath(path);
             existing.setPdfName(file.getOriginalFilename());
+        }
+
+        if (audioFile != null && !audioFile.isEmpty()) {
+            String audioPath = storageService.save(audioFile);
+            existing.setAudioPath(audioPath);
+            existing.setAudioName(audioFile.getOriginalFilename());
         }
 
         Partition saved = partitionService.update(existing);
@@ -138,6 +152,25 @@ public class PartitionRestController {
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"partition.pdf\""
+                )
+                .body(file);
+    }
+
+    @GetMapping("/{id}/download-audio")
+    public ResponseEntity<Resource> downloadAudio(@PathVariable Integer id) {
+        Partition partition = partitionService.getById(id);
+
+        if (partition == null || partition.getAudioPath() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Resource file = storageService.load(partition.getAudioPath());
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + partition.getAudioName() + "\""
                 )
                 .body(file);
     }

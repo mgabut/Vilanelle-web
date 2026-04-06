@@ -1,0 +1,10 @@
+<div class="calendar-page">
+  <div class="calendar-header">
+    <h2>Calendrier</h2>
+    <span class="badge" [class.admin]="isAdmin" [class.user]="!isAdmin">
+      {{ isAdmin ? 'ADMIN - édition autorisée' : 'USER - lecture seule' }}
+    </span>
+  </div>
+
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>

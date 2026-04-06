@@ -1,46 +1,69 @@
 @use '../styles/variables' as *;
 
 .navbar-custom {
-    background-color: $background-color ;
-    padding: 15px 0px;
-    transition: all 0.3s ease-in-out;
+  background-color: $background-color;
+  height: 60px;
+  min-height: 60px;
+  max-height: 60px;
+  padding: 0 !important;
+  overflow: hidden;
 }
 
-.navbar-small{
-    padding: 5px 0;
+.navuser-container {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* Logo normal */
-.navbar-brand img {
-    height: 80px; /* Taille du logo */
-    transition: all 0.3s ease-in-out;
+#navbarUserNav,
+#navbarUserLogin {
+  display: flex !important;
+  align-items: center;
+  height: 60px;
 }
 
-/* Logo réduit */
-.logo-small {
-    height: 40px !important; /* Taille beaucoup plus réduite */
-    transform: scale(0.5); /* Réduction en plus du height */
-    opacity: 0; /* Effet de léger fondu */
+.navbar-user {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 60px;
 }
 
-.navbar-nav .nav-link {
-    color: $light-black; /* Couleur du texte */
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-right: 15px;
+.nav-item {
+  display: flex;
+  align-items: center;
+  height: 60px;
 }
-.navbar-nav .nav-link.active-link {
-    color: $elegant-red !important; /* Couleur lorsque la page est active */
-  }
+
+.nav-link {
+  color: $light-black;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 8px !important;
+  margin: 0;
+}
+
+.nav-link.active-link {
+  color: $elegant-red !important;
+}
 
 .btn-contact {
-    background-color: $elegant-red; /* Couleur du bouton */
-    color: white;
-    border-radius: 20px;
-    padding: 8px 20px;
-    font-weight: 600;
-}
-.btn-contact:hover {
-    background-color: $hover-red; /* Couleur du bouton au survol */
+  background-color: $elegant-red;
+  color: white;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
+.btn-contact:hover {
+  background-color: $hover-red;
+}

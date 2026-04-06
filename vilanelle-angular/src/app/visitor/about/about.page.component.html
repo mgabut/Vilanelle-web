@@ -1,7 +1,11 @@
 <app-navbar/>
 
-<div class="banner">
-    <img src="assets/images/banniere_2.jpg" alt="banner" class="img-fluid blur-image"/>
-</div>
+<div class="allpage">
+    <div class="banner">
+        <img src="assets/images/banniere.jpg" alt="banner" class="img-fluid blur-image"/>
+    </div>
 
-<app-section-presentation/>
+    <app-section-presentation/>
+
+    <app-feature-card-list [featureCardList]="featureCardList()" class=""/>
+</div>

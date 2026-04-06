@@ -24,6 +24,12 @@ public class Partition {
     @Column
     protected String pdfName;
 
+    @Column
+    protected String audioPath;
+
+    @Column
+    protected String audioName;
+
     @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     protected LocalDateTime dateCreation;
@@ -69,6 +75,15 @@ public class Partition {
     public void setPdfName(String pdfName) {this.pdfName = pdfName;}
 
     public String getPdfName() {return pdfName;}
+
+    public String getAudioPath() {return audioPath;}
+
+    public void setAudioName(String audioName) {this.audioName = audioName;}
+
+    public void setAudioPath(String audioPath) {this.audioPath = audioPath;}
+
+    public String getAudioName() {return audioName;}
+
 
     public LocalDateTime getDateCreation() {return dateCreation;}
 

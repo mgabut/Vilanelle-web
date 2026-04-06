@@ -30,11 +30,16 @@ export class PartitionService {
     );
   }
 
-  public create(titre: string, auteur: string, file: File): void {
+  public create(titre: string, auteur: string, pdfFile: File, audioFile: File | null): void {
     const formData = new FormData();
     formData.append('titre', titre);
     formData.append('auteur', auteur);
-    formData.append('file', file);
+    formData.append('file', pdfFile);
+
+    if (audioFile) {
+    formData.append('audioFile', audioFile);
+  }
+
 
     this.http.post<PartitionDto>(this.apiUrl, formData)
       .subscribe(() => this.refresh());
@@ -57,6 +62,12 @@ export class PartitionService {
 
   public downloadById(id: number): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/${id}/download`, {
+      responseType: 'blob'
+    });
+  }
+
+  public downloadAudioById(id: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${id}/download-audio`, {
       responseType: 'blob'
     });
   }
