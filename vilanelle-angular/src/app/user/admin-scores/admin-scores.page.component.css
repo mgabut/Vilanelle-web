@@ -1,3 +1,39 @@
 .allpage {
-    padding-top: 60px;
+  padding-top: 60px;
+}
+
+.search-section {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.search-title {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 400px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 8px 14px;
+  border: 1px solid #d0c9b8;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.search-bar input:focus {
+  border-color: #8a7a5a;
+}
+
+.result-count {
+  font-size: 0.85rem;
+  color: #8a7a5a;
+  white-space: nowrap;
 }

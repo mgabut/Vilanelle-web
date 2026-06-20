@@ -15,11 +15,15 @@ public class PhotoService {
     private IDAOPhoto daoPhoto;
 
     public List<Photo> getAll() {
-        return daoPhoto.findAll();
+        return daoPhoto.findAllByOrderByPhotoYearDescPhotoMonthDesc();
     }
 
     public List<Photo> getAllVisibleOnHome() {
         return daoPhoto.findByVisibleOnHomeTrue();
+    }
+
+    public List<Photo> searchByAlbum(String albumName) {
+        return daoPhoto.findByAlbumNameContainingIgnoreCaseOrderByPhotoYearDescPhotoMonthDesc(albumName);
     }
 
     public Photo getById(Integer id) {

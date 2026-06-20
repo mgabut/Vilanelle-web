@@ -1,44 +1,54 @@
-<h2 class="title-section">Ajouter une photo</h2>
+<form class="upload-form" (ngSubmit)="submit()">
+  <h2 class="title-section">Ajouter une photo</h2>
 
-<form (ngSubmit)="uploadPhoto()">
-  <div class="mb-3">
-    <label for="title" class="form-label">Titre</label>
-    <input
-      id="title"
-      type="text"
-      class="form-control"
-      [(ngModel)]="title"
-      name="title"
-      required
-    />
+  <div class="form-group">
+    <label for="albumName">Album *</label>
+    <input id="albumName" type="text" [(ngModel)]="albumName" name="albumName" placeholder="Nom de l'album" required />
   </div>
 
-  <div class="mb-3">
-    <label for="file" class="form-label">Choisir une image</label>
-    <input
-      id="file"
-      type="file"
-      class="form-control"
-      accept="image/*"
-      (change)="onFileSelected($event)"
-      required
-    />
+  <div class="form-row">
+    <div class="form-group">
+      <label for="photoMonth">Mois *</label>
+      <select id="photoMonth" [(ngModel)]="photoMonth" name="photoMonth" required>
+        <option [ngValue]="null" disabled>Mois</option>
+        @for (month of months; track $index) {
+          <option [ngValue]="$index + 1">{{ month }}</option>
+        }
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="photoYear">Année *</label>
+      <select id="photoYear" [(ngModel)]="photoYear" name="photoYear" required>
+        <option [ngValue]="null" disabled>Année</option>
+        @for (year of years; track year) {
+          <option [ngValue]="year">{{ year }}</option>
+        }
+      </select>
+    </div>
   </div>
 
-  <div class="form-check mb-3">
-    <input
-      id="visibleOnHome"
-      type="checkbox"
-      class="form-check-input"
-      [(ngModel)]="visibleOnHome"
-      name="visibleOnHome"
-    />
-    <label for="visibleOnHome" class="form-check-label">
-      Afficher sur la page d’accueil
+  <div class="form-group">
+    <label for="title">Titre</label>
+    <input id="title" type="text" [(ngModel)]="title" name="title" placeholder="Titre de la photo (optionnel)" />
+  </div>
+
+  <div class="form-group">
+    <label for="file">Fichier image *</label>
+    <input id="file" type="file" accept="image/*" (change)="onFileSelected($event)" name="file" />
+  </div>
+
+  <div class="form-group checkbox-group">
+    <label>
+      <input type="checkbox" [(ngModel)]="visibleOnHome" name="visibleOnHome" />
+      Afficher sur la page d'accueil
     </label>
   </div>
 
-  <button type="submit" class="btn btn-primary" [disabled]="!selectedFile">
-    Uploader
+  @if (error) {
+    <p class="error-msg">{{ error }}</p>
+  }
+
+  <button type="submit" [disabled]="!selectedFile || !albumName || !photoMonth || !photoYear || uploading" class="btn-submit">
+    {{ uploading ? 'Upload en cours...' : 'Ajouter la photo' }}
   </button>
 </form>

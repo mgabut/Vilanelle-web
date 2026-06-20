@@ -1,0 +1,67 @@
+<app-navadmin />
+
+<div class="allpage">
+  <h1 class="title-section">Gestion des photos</h1>
+
+  <div class="content-layout">
+    <aside class="form-panel">
+      <app-formulaire (photoUploaded)="loadPhotos()" />
+
+      <div class="search-section">
+        <h2 class="search-title">Rechercher par album</h2>
+        <div class="search-bar">
+          <input
+            type="search"
+            placeholder="Nom de l'album"
+            [(ngModel)]="searchQuery"
+            (input)="applyFilter()"
+          />
+          @if (searchQuery) {
+            <span class="result-count">{{ photos.length }} résultat(s)</span>
+          }
+        </div>
+      </div>
+    </aside>
+
+    <div class="photos-panel">
+      <div class="mosaic-grid">
+      @for (photo of photos; track photo.id) {
+        <div class="mosaic-item" (click)="openPhoto(photo)">
+          <img [src]="photoService.getPhotoImageUrl(photo.id)" [alt]="photo.title" />
+          @if (photo.albumName) {
+            <div class="photo-info-overlay">
+              <span class="photo-album-label">{{ photo.albumName }}</span>
+              @if (photo.photoMonth && photo.photoYear) {
+                <span class="photo-date-label">{{ photo.photoMonth }}/{{ photo.photoYear }}</span>
+              }
+            </div>
+          }
+          <div class="photo-admin-bar" (click)="$event.stopPropagation()">
+            <label class="visibility-toggle">
+              <input
+                type="checkbox"
+                [checked]="photo.visibleOnHome"
+                (change)="toggleVisibility(photo)"
+              />
+              Accueil
+            </label>
+            <button class="btn-delete" (click)="deletePhoto(photo, $event)">Supprimer</button>
+          </div>
+        </div>
+      }
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (selectedPhoto) {
+  <div class="lightbox" (click)="closePhoto()">
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closePhoto()">×</button>
+      <img [src]="photoService.getPhotoImageUrl(selectedPhoto.id)" [alt]="selectedPhoto.title" />
+      @if (selectedPhoto.title) {
+        <p>{{ selectedPhoto.title }}</p>
+      }
+    </div>
+  </div>
+}

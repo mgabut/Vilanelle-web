@@ -13,6 +13,7 @@ import { AdminScoresPageComponent } from './user/admin-scores/admin-scores.page.
 import { HistoryPageComponent } from './visitor/history/history.page.component';
 import { AdminCalendarPageComponent } from './user/admin-calendar/admin-calendar.page.component';
 import { UserCalendarPageComponent } from './user/user-calendar/user-calendar.page.component';
+import { AdminPicturesPageComponent } from './user/admin-pictures/admin-pictures.page.component';
 
 export const routes: Routes = [
     {
@@ -74,6 +75,12 @@ export const routes: Routes = [
         component: PicturesPageComponent,
         title: 'pictures',
         canActivate: [authGuard]
+    },
+    {
+        path: 'admin-pictures',
+        component: AdminPicturesPageComponent,
+        title: 'admin-pictures',
+        canActivate: [adminGuard]
     },
     {
         path: 'admin-agenda',

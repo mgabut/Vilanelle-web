@@ -7,6 +7,21 @@
 
       <h2 class="title-section">Gestion des partitions</h2>
 
+      <div class="search-section">
+        <h3 class="search-title">Rechercher une partition</h3>
+        <div class="search-bar">
+          <input
+            type="search"
+            placeholder="Titre ou nom du PDF"
+            [(ngModel)]="searchQuery"
+            (input)="onSearch()"
+          />
+          @if (searchQuery) {
+            <span class="result-count">{{ (filteredPartitions$ | async)?.length }} résultat(s)</span>
+          }
+        </div>
+      </div>
+
       <table class="table table-hover mt-4">
         <thead class="table-light">
           <tr>
@@ -20,7 +35,7 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let partition of partition$ | async; trackBy: trackPartition">
+          <tr *ngFor="let partition of filteredPartitions$ | async; trackBy: trackPartition">
             <td>{{ partition.titre }}</td>
             <td>{{ partition.auteur }}</td>
             <td>{{ partition.pdfName }}</td>
@@ -100,9 +115,14 @@
           />
         </div>
 
-        <!-- PDF uniquement en création -->
-        <div class="mb-4" *ngIf="!editingPartition">
-          <label class="form-label">PDF</label>
+        <!-- PDF -->
+        <div class="mb-4">
+          <label class="form-label">
+            {{ editingPartition ? 'Remplacer le PDF (optionnel)' : 'PDF' }}
+            @if (editingPartition) {
+              <span class="text-muted small ms-1">— actuel : {{ editingPartition.pdfName }}</span>
+            }
+          </label>
           <input
             type="file"
             class="form-control"
@@ -111,9 +131,14 @@
           />
         </div>
 
-        <!-- audio uniquement en création -->
-        <div class="mb-4" *ngIf="!editingPartition">
-          <label class="form-label">Fichier audio (optionnel)</label>
+        <!-- Audio -->
+        <div class="mb-4">
+          <label class="form-label">
+            {{ editingPartition ? 'Remplacer l\'audio (optionnel)' : 'Fichier audio (optionnel)' }}
+            @if (editingPartition && editingPartition.audioName) {
+              <span class="text-muted small ms-1">— actuel : {{ editingPartition.audioName }}</span>
+            }
+          </label>
           <input
             type="file"
             class="form-control"

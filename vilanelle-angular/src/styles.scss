@@ -17,15 +17,66 @@ nav {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 10;
+    z-index: 100;
  }
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.lightbox-content img {
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 4px;
+    object-fit: contain;
+}
+
+.lightbox .close-btn {
+    position: absolute;
+    top: -36px;
+    right: -8px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.lightbox-content p {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0;
+}
 
 body {
     background-color: $background-color;
 }
 
+/* Angular insère le composant de route comme frère de router-outlet */
+router-outlet + * {
+  flex: 1 0 auto;
+  display: block;
+}
+
 .main-content {
-    flex-grow: 1; /* Pousse le footer en bas */
+    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;

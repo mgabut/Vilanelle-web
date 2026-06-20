@@ -1,22 +1,79 @@
-<app-navadmin/>
+<app-navuser />
 
 <div class="allpage">
-    <h1 class="title-section">Gestion des photos</h1>
+  <h1 class="title-section">Photos</h1>
 
-    <div *ngFor="let photo of photos" class="photo-admin-item">
-        <img [src]="photo.imageUrl" [alt]="photo.title" width="120" />
-
-        <div>
-            <p class="text-section">{{ photo.title }}</p>
-
-            <label>
-            <input
-                type="checkbox"
-                [checked]="photo.visibleOnHome"
-                (change)="toggleVisibility(photo)"
-            />
-            Afficher sur la page d’accueil
-            </label>
-        </div>
+  <div class="toolbar">
+    <div class="search-bar">
+      <input
+        type="search"
+        placeholder="Rechercher un album..."
+        [(ngModel)]="searchQuery"
+        name="searchQuery"
+      />
+      @if (searchQuery) {
+        <span class="result-count">{{ filteredPhotos.length }} photo(s)</span>
+      }
     </div>
+    <div class="sort-toggle">
+      <button [class.active]="sortMode === 'date'" (click)="sortMode = 'date'">Par date</button>
+      <button [class.active]="sortMode === 'album'" (click)="sortMode = 'album'">Par album</button>
+    </div>
+  </div>
+
+  @if (sortMode === 'date') {
+    <div class="mosaic-grid">
+      @for (photo of sortedPhotos; track photo.id) {
+        <div class="mosaic-item" (click)="openPhoto(photo)">
+          <img [src]="photoService.getPhotoImageUrl(photo.id)" [alt]="photo.title" />
+          @if (photo.albumName) {
+            <div class="photo-overlay">
+              <span class="photo-album">{{ photo.albumName }}</span>
+              @if (photo.photoMonth && photo.photoYear) {
+                <span class="photo-date">{{ monthLabel(photo) }}</span>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  } @else {
+    @for (group of albumGroups; track group.albumName) {
+      <div class="album-section">
+        <h2 class="album-title">{{ group.label }}</h2>
+        <div class="mosaic-grid">
+          @for (photo of group.photos; track photo.id) {
+            <div class="mosaic-item" (click)="openPhoto(photo)">
+              <img [src]="photoService.getPhotoImageUrl(photo.id)" [alt]="photo.title" />
+              @if (photo.photoMonth && photo.photoYear) {
+                <div class="photo-overlay">
+                  <span class="photo-date">{{ monthLabel(photo) }}</span>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
 </div>
+
+@if (selectedPhoto) {
+  <div class="lightbox" (click)="closePhoto()">
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closePhoto()">×</button>
+      <img [src]="photoService.getPhotoImageUrl(selectedPhoto.id)" [alt]="selectedPhoto.title" />
+      <div class="lightbox-info">
+        @if (selectedPhoto.albumName) {
+          <span class="lightbox-album">{{ selectedPhoto.albumName }}</span>
+        }
+        @if (selectedPhoto.photoMonth && selectedPhoto.photoYear) {
+          <span class="lightbox-date">{{ monthLabel(selectedPhoto) }}</span>
+        }
+        @if (selectedPhoto.title) {
+          <p class="lightbox-title">{{ selectedPhoto.title }}</p>
+        }
+      </div>
+    </div>
+  </div>
+}

@@ -55,6 +55,23 @@ export class PartitionService {
       .subscribe(() => this.refresh());
   }
 
+  public updateWithFile(
+    id: number,
+    titre: string,
+    auteur: string,
+    pdfFile: File | null,
+    audioFile: File | null
+  ): void {
+    const formData = new FormData();
+    formData.append('titre', titre);
+    formData.append('auteur', auteur);
+    if (pdfFile) formData.append('file', pdfFile);
+    if (audioFile) formData.append('audioFile', audioFile);
+
+    this.http.put<PartitionDto>(`${this.apiUrl}/${id}/with-file`, formData)
+      .subscribe(() => this.refresh());
+  }
+
   public deleteById(id: number): void {
     this.http.delete<void>(`${this.apiUrl}/${id}`)
       .subscribe(() => this.refresh());

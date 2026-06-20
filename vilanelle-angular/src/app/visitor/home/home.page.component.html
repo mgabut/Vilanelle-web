@@ -3,38 +3,31 @@
 <div class="allpage">
   <div class="full-page">
     <div class="container text-center">
-        <!-- Titre -->
-        <h1 class="">CHOEUR MIXTE LA VILLANELLE</h1>
-      
-        <!-- Image -->
-        <div class="row justify-content-center mt-4">
-          <div class="col-md-8">
-            <img src="assets/images/la-villanelle.jpg" alt="Photo de la chorale" class="img-fluid rounded shadow">
-          </div>
-        </div>
+      <h1>CHOEUR MIXTE LA VILLANELLE</h1>
 
+      @if (homePhotos.length > 0) {
         <section class="photo-gallery-section">
-
           <div class="mosaic-grid">
-            <div
-              class="mosaic-item"
-              *ngFor="let photo of homePhotos"
-              (click)="openPhoto(photo)"
-            >
-              <img [src]="photo.imageUrl" [alt]="photo.title" />
-            </div>
+            @for (photo of homePhotos; track photo.id) {
+              <div class="mosaic-item" (click)="openPhoto(photo)">
+                <img [src]="photoService.getPhotoImageUrl(photo.id)" [alt]="photo.title" />
+              </div>
+            }
           </div>
         </section>
-
-        <div class="lightbox" *ngIf="selectedPhoto" (click)="closePhoto()">
-          <div class="lightbox-content" (click)="$event.stopPropagation()">
-            <button class="close-btn" (click)="closePhoto()">×</button>
-            <img [src]="selectedPhoto.imageUrl" [alt]="selectedPhoto.title" />
-            <p class="text-section" *ngIf="selectedPhoto.title">
-              {{ selectedPhoto.title }}
-            </p>
-          </div>
-        </div>
+      }
     </div>
   </div>
 </div>
+
+@if (selectedPhoto) {
+  <div class="lightbox" (click)="closePhoto()">
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closePhoto()">×</button>
+      <img [src]="photoService.getPhotoImageUrl(selectedPhoto.id)" [alt]="selectedPhoto.title" />
+      @if (selectedPhoto.title) {
+        <p class="text-section">{{ selectedPhoto.title }}</p>
+      }
+    </div>
+  </div>
+}

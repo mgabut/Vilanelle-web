@@ -9,4 +9,8 @@ public interface IDAOPhoto extends JpaRepository<Photo, Integer> {
 
     List<Photo> findByVisibleOnHomeTrue();
 
+    List<Photo> findAllByOrderByPhotoYearDescPhotoMonthDesc();
+
+    List<Photo> findByAlbumNameContainingIgnoreCaseOrderByPhotoYearDescPhotoMonthDesc(String albumName);
+
 }

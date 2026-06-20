@@ -1,3 +1,60 @@
 .allpage {
-    padding-top: 60px;
+  padding-top: 60px;
+}
+
+.content-box {
+  background-color: #fff;
+  border-radius: 15px;
+}
+
+.section1 {
+  background-color: #f8f4f0;
+}
+
+.section2 {
+  background-color: white;
+}
+
+.title-section {
+  color: #c0392b;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Affiche admin grid */
+.affiches-admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.affiche-slot {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.slot-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.affiche-preview img {
+  width: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.affiche-empty {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border-radius: 4px;
 }

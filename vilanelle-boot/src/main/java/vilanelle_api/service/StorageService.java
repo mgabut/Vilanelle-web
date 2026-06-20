@@ -18,8 +18,12 @@ public class StorageService {
     private String basePath;
 
     public String save(MultipartFile file) {
+        return save(file, basePath);
+    }
+
+    public String save(MultipartFile file, String targetPath) {
         try {
-            Path storageDir = Paths.get(basePath).toAbsolutePath();
+            Path storageDir = Paths.get(targetPath).toAbsolutePath();
             Files.createDirectories(storageDir);
 
             String filename = UUID.randomUUID() + "-" + file.getOriginalFilename();

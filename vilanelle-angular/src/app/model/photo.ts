@@ -1,6 +1,8 @@
 export interface Photo {
   id: number;
   title: string;
-  imageUrl: string;
   visibleOnHome: boolean;
+  albumName: string;
+  photoMonth: number;
+  photoYear: number;
 }

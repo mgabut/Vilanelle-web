@@ -1,17 +1,47 @@
 <app-navbar/>
 
 <div class="allpage">
-    <div class="container text-center mt-2 p-5">
-        <h2 class="title-section">Concerts a venir</h2>
-        <div *ngIf="upcomingConcerts().length === 0" class="mt-4">
-            Aucun concert n'est prévu pour le moment.
-        </div>
-        <app-concert [agendaConcerts]="upcomingConcerts()" class=""/>
-    </div>
+  <div class="agenda-layout">
 
+    <!-- Colonne gauche : événements -->
+    <div class="events-column">
+      <div class="container text-center mt-2 p-5">
+        <h2 class="title-section">Concerts à venir</h2>
+        @if (upcomingConcerts().length === 0) {
+          <div class="mt-4">Aucun concert n'est prévu pour le moment.</div>
+        }
+        <app-concert [agendaConcerts]="upcomingConcerts()"/>
+      </div>
 
-    <div class="container text-center mt-2 p-5">
+      <div class="container text-center mt-2 p-5">
         <h2 class="title-section">Concerts précédents</h2>
-        <app-concert [agendaConcerts]="pastConcerts()" class=""/>
+        <app-concert [agendaConcerts]="pastConcerts()"/>
+      </div>
     </div>
+
+    <!-- Colonne droite : affiches 2×2 -->
+    <div class="affiches-column">
+      <div class="affiches-grid">
+        @for (affiche of affiches(); track affiche.id) {
+          <div class="affiche-card" (click)="openAffiche(affiche)">
+            <img [src]="afficheService.getAfficheImageUrl(affiche.id)" alt="Affiche concert" />
+          </div>
+        }
+        @if (affiches().length === 0) {
+          <p class="text-muted text-center mt-3">Aucune affiche disponible.</p>
+        }
+      </div>
+    </div>
+
+  </div>
 </div>
+
+<!-- Lightbox -->
+@if (selectedAffiche()) {
+  <div class="lightbox" (click)="closeAffiche()">
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeAffiche()">×</button>
+      <img [src]="afficheService.getAfficheImageUrl(selectedAffiche()!.id)" alt="Affiche concert" />
+    </div>
+  </div>
+}

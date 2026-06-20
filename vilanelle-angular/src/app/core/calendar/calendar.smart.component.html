@@ -1,10 +1,140 @@
-<div class="calendar-page">
-  <div class="calendar-header">
-    <h2>Calendrier</h2>
-    <span class="badge" [class.admin]="isAdmin" [class.user]="!isAdmin">
-      {{ isAdmin ? 'ADMIN - édition autorisée' : 'USER - lecture seule' }}
-    </span>
+<div class="calendar-wrapper">
+
+  <div class="cal-header">
+    <h2 class="cal-title">Calendrier</h2>
+    @if (isAdmin) {
+      <span class="cal-badge">Administration — cliquez sur une date pour ajouter</span>
+    }
   </div>
 
   <full-calendar [options]="calendarOptions"></full-calendar>
+
 </div>
+
+<!-- ===== MODAL ===== -->
+@if (showModal) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+
+      <button class="modal-close" (click)="closeModal()">&#x2715;</button>
+
+      <!-- Vue lecture (utilisateurs) -->
+      @if (modalMode === 'view') {
+        <h3 class="modal-title">{{ viewData.title }}</h3>
+        @if (viewData.isRecurring) {
+          <span class="recurrence-tag">↻ Événement récurrent</span>
+        }
+        <p class="modal-date-line">{{ formatDisplay(viewData.start) }}</p>
+        @if (viewData.end && viewData.end !== viewData.start) {
+          <p class="modal-date-end">→ {{ formatDisplay(viewData.end) }}</p>
+        }
+        @if (viewData.description) {
+          <p class="modal-description">{{ viewData.description }}</p>
+        }
+        <div class="modal-actions">
+          <button class="btn-modal-cancel" (click)="closeModal()">Fermer</button>
+        </div>
+      }
+
+      <!-- Formulaire ajout / modification (admin) -->
+      @if (modalMode === 'add' || modalMode === 'edit') {
+        <h3 class="modal-title">
+          {{ modalMode === 'add' ? 'Ajouter un événement' : 'Modifier l\'événement' }}
+        </h3>
+
+        @if (modalMode === 'edit' && formData.recurrence !== 'none') {
+          <div class="series-notice">↻ Modification de toute la série</div>
+        }
+
+        <!-- Titre -->
+        <div class="modal-field">
+          <label class="modal-label">Titre *</label>
+          <input
+            class="modal-input"
+            type="text"
+            [(ngModel)]="formData.title"
+            placeholder="Titre de l'événement"
+            autofocus
+          />
+        </div>
+
+        <!-- Description -->
+        <div class="modal-field">
+          <label class="modal-label">Description</label>
+          <textarea
+            class="modal-input modal-textarea"
+            [(ngModel)]="formData.description"
+            placeholder="Description (optionnel)"
+            rows="2"
+          ></textarea>
+        </div>
+
+        <!-- Dates -->
+        <div class="modal-row">
+          <div class="modal-field">
+            <label class="modal-label">Début</label>
+            <input class="modal-input" type="datetime-local" [(ngModel)]="formData.start" />
+          </div>
+          <div class="modal-field">
+            <label class="modal-label">Fin</label>
+            <input class="modal-input" type="datetime-local" [(ngModel)]="formData.end" />
+          </div>
+        </div>
+
+        <!-- Récurrence -->
+        <div class="recurrence-section">
+          <div class="recurrence-header">
+            <span class="recurrence-icon">↻</span>
+            <label class="modal-label" style="margin:0">Récurrence</label>
+          </div>
+
+          <div class="recurrence-body">
+            <div class="recurrence-tabs">
+              @for (opt of recurrenceOptions; track opt.value) {
+                <button
+                  type="button"
+                  class="recurrence-tab"
+                  [class.active]="formData.recurrence === opt.value"
+                  (click)="formData.recurrence = opt.value"
+                >
+                  {{ opt.label }}
+                </button>
+              }
+            </div>
+
+            @if (formData.recurrence !== 'none') {
+              <div class="recurrence-until">
+                <label class="modal-label">Répéter jusqu'au *</label>
+                <input
+                  class="modal-input"
+                  type="date"
+                  [(ngModel)]="formData.recurrenceUntil"
+                />
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="modal-actions">
+          <button
+            class="btn-modal-save"
+            [disabled]="!formIsValid"
+            (click)="saveEvent()"
+          >
+            {{ modalMode === 'add' ? 'Ajouter' : 'Enregistrer' }}
+          </button>
+
+          @if (modalMode === 'edit') {
+            <button class="btn-modal-delete" (click)="deleteEvent()">
+              {{ formData.recurrence !== 'none' ? 'Supprimer la série' : 'Supprimer' }}
+            </button>
+          }
+
+          <button class="btn-modal-cancel" (click)="closeModal()">Annuler</button>
+        </div>
+      }
+
+    </div>
+  </div>
+}

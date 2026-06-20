@@ -13,40 +13,38 @@ public class Photo {
     private String title;
 
     @Column
-    private String imageUrl;
+    private String albumName;
+
+    @Column
+    private Integer photoMonth;
+
+    @Column
+    private Integer photoYear;
+
+    @Column
+    private String imagePath;
 
     @Column
     private boolean visibleOnHome;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+    public String getAlbumName() { return albumName; }
+    public void setAlbumName(String albumName) { this.albumName = albumName; }
 
-    public void setVisibleOnHome(boolean visibleOnHome) {
-        this.visibleOnHome = visibleOnHome;
-    }
+    public Integer getPhotoMonth() { return photoMonth; }
+    public void setPhotoMonth(Integer photoMonth) { this.photoMonth = photoMonth; }
 
-    public Integer getId() {
-        return id;
-    }
+    public Integer getPhotoYear() { return photoYear; }
+    public void setPhotoYear(Integer photoYear) { this.photoYear = photoYear; }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+    public String getImagePath() { return imagePath; }
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public boolean isVisibleOnHome() {
-        return visibleOnHome;
-    }
+    public boolean isVisibleOnHome() { return visibleOnHome; }
+    public void setVisibleOnHome(boolean visibleOnHome) { this.visibleOnHome = visibleOnHome; }
 }

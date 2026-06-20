@@ -1,21 +1,25 @@
 import { Component } from '@angular/core';
 import { NavadminSmartComponent } from '../../core/navadmin/navadmin.smart.component';
 import { PartitionDto } from '../../dto/partition-dto';
-import { Observable } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PartitionService } from '../../service/PartitionService';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-scores',
-  imports: [NavadminSmartComponent, ReactiveFormsModule, CommonModule],
+  imports: [NavadminSmartComponent, ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './admin-scores.page.component.html',
   styleUrl: './admin-scores.page.component.css',
 })
 export class AdminScoresPageComponent {
 
   protected partition$!: Observable<PartitionDto[]>;
+  protected filteredPartitions$!: Observable<PartitionDto[]>;
   protected partitionForm!: FormGroup;
+
+  protected searchQuery = '';
+  private searchSubject = new BehaviorSubject<string>('');
 
   protected auteurCtrl!: FormControl;
   protected titreCtrl!: FormControl;
@@ -31,6 +35,14 @@ export class AdminScoresPageComponent {
 
   ngOnInit(): void {
     this.partition$ = this.partitionService.findAll();
+    this.filteredPartitions$ = combineLatest([this.partition$, this.searchSubject]).pipe(
+      map(([partitions, query]) => {
+        const q = query.trim().toLowerCase();
+        return q ? partitions.filter(p =>
+          p.titre?.toLowerCase().includes(q) || p.pdfName?.toLowerCase().includes(q)
+        ) : partitions;
+      })
+    );
 
     this.auteurCtrl = new FormControl('', { nonNullable: true, validators: [Validators.required] });
     this.titreCtrl = new FormControl('', { nonNullable: true, validators: [Validators.required] });
@@ -57,18 +69,13 @@ export class AdminScoresPageComponent {
 
   public ajouterModifierMap(): void {
   if (this.editingPartition) {
-    const updatedPartition = new PartitionDto(
+    this.partitionService.updateWithFile(
       this.editingPartition.id,
       this.titreCtrl.value,
       this.auteurCtrl.value,
-      this.editingPartition.pdfPath,
-      this.editingPartition.pdfName,
-      this.editingPartition.audioPath,
-      this.editingPartition.audioName,
-      this.editingPartition.dateCreation
+      this.selectedFile,
+      this.selectedAudioFile
     );
-
-    this.partitionService.update(updatedPartition);
   } else {
     if (!this.selectedFile) {
       alert('Veuillez sélectionner un fichier PDF.');
@@ -94,6 +101,7 @@ export class AdminScoresPageComponent {
   }
 
   public deletePartition(partition: PartitionDto): void {
+    if (!confirm(`Supprimer la partition "${partition.titre}" ? Cette action est irréversible.`)) return;
     this.partitionService.deleteById(partition.id);
   }
 
@@ -129,6 +137,10 @@ export class AdminScoresPageComponent {
         alert('Impossible de télécharger le fichier audio.');
       }
     });
+  }
+
+  public onSearch(): void {
+    this.searchSubject.next(this.searchQuery);
   }
 
   public cancelEdit(): void {

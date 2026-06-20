@@ -1,29 +1,411 @@
-.calendar-page {
-  padding: 16px;
+/* ===== Wrapper du calendrier ===== */
+.calendar-wrapper {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 16px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
+  padding: 1.5rem 2rem 2rem;
 }
 
-.calendar-header {
+/* ===== En-tête ===== */
+.cal-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(192, 57, 43, 0.12);
 }
 
-.badge {
-  padding: 8px 12px;
+.cal-title {
+  color: #C0392B;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.cal-badge {
+  background: rgba(192, 57, 43, 0.08);
+  color: #C0392B;
+  border: 1px solid rgba(192, 57, 43, 0.2);
   border-radius: 999px;
-  font-size: 13px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ===== Surcharge FullCalendar ===== */
+:host ::ng-deep .fc {
+  font-family: 'Playfair Display', serif;
+}
+
+:host ::ng-deep .fc .fc-button {
+  background: #C0392B;
+  border-color: #C0392B;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.82rem;
+  border-radius: 6px;
+  padding: 0.3rem 0.75rem;
+  transition: background 0.18s;
+}
+
+:host ::ng-deep .fc .fc-button:hover {
+  background: #E74C3C;
+  border-color: #E74C3C;
+}
+
+:host ::ng-deep .fc .fc-button-active,
+:host ::ng-deep .fc .fc-button:not(:disabled):active {
+  background: #922b21;
+  border-color: #922b21;
+}
+
+:host ::ng-deep .fc .fc-toolbar-title {
+  color: #C0392B;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+:host ::ng-deep .fc .fc-daygrid-day.fc-day-today,
+:host ::ng-deep .fc .fc-timegrid-col.fc-day-today {
+  background: rgba(192, 57, 43, 0.04);
+}
+
+:host ::ng-deep .fc .fc-event {
+  background: #C0392B;
+  border-color: #922b21;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+:host ::ng-deep .fc .fc-event:hover {
+  background: #E74C3C;
+  border-color: #c0392b;
+}
+
+:host ::ng-deep .fc .fc-col-header-cell {
+  background: #FCF7EC;
+  color: #555;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+:host ::ng-deep .fc .fc-now-indicator-line {
+  border-color: #C0392B;
+}
+
+/* ===== Backdrop modal ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  padding: 1rem;
+}
+
+/* ===== Carte modale ===== */
+.modal-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+  padding: 2rem 2.25rem;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  font-family: 'Playfair Display', serif;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.modal-close:hover {
+  color: #C0392B;
+}
+
+.modal-title {
+  color: #C0392B;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1.5px solid rgba(192, 57, 43, 0.12);
+}
+
+/* ===== Champs du formulaire ===== */
+.modal-field {
+  margin-bottom: 1rem;
+}
+
+.modal-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #555;
+  margin-bottom: 0.35rem;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 0.55rem 0.85rem;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: 'Playfair Display', serif;
+  color: #333;
+  background: #fafafa;
+  box-sizing: border-box;
+  transition: border-color 0.18s, background 0.18s;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: #C0392B;
+  background: #fff;
+}
+
+.modal-textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.modal-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.modal-row .modal-field {
+  flex: 1;
+}
+
+.modal-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.modal-check input[type="checkbox"] {
+  accent-color: #C0392B;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+/* ===== Affichage lecture ===== */
+.modal-date-line {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 0.3rem;
+}
+
+.modal-date-end {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 0.75rem;
+}
+
+.modal-description {
+  font-size: 0.95rem;
+  color: #444;
+  background: #FCF7EC;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ===== Boutons de la modale ===== */
+.modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.btn-modal-save {
+  background: #C0392B;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.6rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Playfair Display', serif;
+  transition: background 0.18s;
+}
+
+.btn-modal-save:hover:not(:disabled) {
+  background: #E74C3C;
+}
+
+.btn-modal-save:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-modal-delete {
+  background: transparent;
+  border: 1.5px solid #e74c3c;
+  color: #e74c3c;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: 'Playfair Display', serif;
+  transition: background 0.18s, color 0.18s;
+}
+
+.btn-modal-delete:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.btn-modal-cancel {
+  background: #eee;
+  color: #555;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: 'Playfair Display', serif;
+  transition: background 0.18s;
+  margin-left: auto;
+}
+
+.btn-modal-cancel:hover {
+  background: #ddd;
+}
+
+/* ===== Section récurrence ===== */
+.recurrence-section {
+  border: 1.5px solid rgba(192, 57, 43, 0.15);
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+
+.recurrence-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(192, 57, 43, 0.05);
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid rgba(192, 57, 43, 0.1);
+}
+
+.recurrence-icon {
+  color: #C0392B;
+  font-size: 1rem;
+}
+
+.recurrence-body {
+  padding: 0.85rem 0.9rem;
+}
+
+.recurrence-tabs {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.recurrence-tab {
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  border: 1.5px solid #ddd;
+  background: #fafafa;
+  color: #555;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: 'Playfair Display', serif;
+  transition: all 0.15s;
+}
+
+.recurrence-tab:hover {
+  border-color: #C0392B;
+  color: #C0392B;
+}
+
+.recurrence-tab.active {
+  background: #C0392B;
+  border-color: #C0392B;
+  color: #fff;
   font-weight: 600;
 }
 
-.badge.admin {
-  background: #e8f5e9;
-  color: #1b5e20;
+.recurrence-until {
+  margin-top: 0.25rem;
 }
 
-.badge.user {
-  background: #f5f5f5;
-  color: #444;
+.recurrence-until .modal-label {
+  margin-bottom: 0.3rem;
+}
+
+/* Badge "récurrent" dans la vue lecture */
+.recurrence-tag {
+  display: inline-block;
+  background: rgba(192, 57, 43, 0.08);
+  color: #C0392B;
+  border: 1px solid rgba(192, 57, 43, 0.2);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+/* Notice "modification de toute la série" */
+.series-notice {
+  background: rgba(192, 57, 43, 0.06);
+  border-left: 3px solid #C0392B;
+  color: #C0392B;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .calendar-wrapper {
+    padding: 1rem;
+  }
+
+  .modal-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .modal-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .cal-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
